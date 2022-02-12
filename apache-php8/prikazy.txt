@@ -1,0 +1,28 @@
+#image
+docker build ./apache-php7/ -t aop-apache-php7:latest
+docker build ./apache-php8/ -t aop-apache-php8:latest
+docker images
+#container
+docker run aop-apache-php8:latest
+docker run aop-apache-php7:latest
+#network
+docker run -p 2022:80 aop-apache-php7:latest
+docker run -p 2023:80 aop-apache-php8:latest
+#volume
+docker run -p 2022:80 -v /home/vxps/ajtaciopraci.cz/apache-php/app:/var/www/html aop-apache-php7:latest
+docker run -p 2023:80 -v /home/vxps/ajtaciopraci.cz/apache-php/app:/var/www/html aop-apache-php8:latest
+#operations
+docker run -p 2022:80 -v /home/vxps/ajtaciopraci.cz/apache-php/app:/var/www/html -d --name aop-kontejner aop-apache-php8:latest
+docker ps
+docker ps -a
+docker stop aop-kontejner
+docker start aop-kontejner
+docker kill aop-kontejner
+docker rm aop-kontejner
+docker rmi aop-apache-php7:latest
+docker rmi aop-apache-php8:latest
+
+
+
+
+
