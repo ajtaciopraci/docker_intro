@@ -1,24 +1,42 @@
-#image
+# image
+## příkaz vytvoří image, dle souboru Dockerfile, který je v adresáři (apache-php7/8)
 docker build ./apache-php7/ -t aop-apache-php7:latest
 docker build ./apache-php8/ -t aop-apache-php8:latest
+## vypišme se image, které máme v systému
 docker images
-#container
+
+# container
+## nejjednodušší spuštění kontejneru na popředí
 docker run aop-apache-php8:latest
 docker run aop-apache-php7:latest
-#network
+
+# network
+## spuštění kontejneru na popředí s namapovaným tcp portem
 docker run -p 2022:80 aop-apache-php7:latest
 docker run -p 2023:80 aop-apache-php8:latest
-#volume
-docker run -p 2022:80 -v /home/vxps/ajtaciopraci.cz/apache-php/app:/var/www/html aop-apache-php7:latest
-docker run -p 2023:80 -v /home/vxps/ajtaciopraci.cz/apache-php/app:/var/www/html aop-apache-php8:latest
-#operations
+
+# volume
+## spuštění kontejneru na popředí s namapovaným tcp portem a připojenným adresářem z hostitele do kontejneru
+### cestu "/home/vxps/ajtaciopraci.cz" si změnte dle toho kam jste si oklonovali repozitář z gitu
+docker run -p 2022:80 -v /home/vxps/ajtaciopraci.cz/apache-php7/app:/var/www/html aop-apache-php7:latest
+docker run -p 2023:80 -v /home/vxps/ajtaciopraci.cz/apache-php8/app:/var/www/html aop-apache-php8:latest
+
+# operations
+## parametr "-d" nám spustí kontejner na pozadí, parametr "--name" pojmenuje kontejner dle naší volby (zde jsme zvolili aop-kontejner)
 docker run -p 2022:80 -v /home/vxps/ajtaciopraci.cz/apache-php/app:/var/www/html -d --name aop-kontejner aop-apache-php8:latest
+## vypíšeme seznam běžících kontejnerů
 docker ps
+## vypíšeme seznam běžících i zastavených kontejnerů
 docker ps -a
+## zastavíme běžící kontejner
 docker stop aop-kontejner
+## kontejner probudíme z mrtvolného stavu dle názvu a dle předchozí spuštěné konfigurace - (tento příkaz za běžných okolností opravdu nebudete potřebovat! slouží pro debug účely)
 docker start aop-kontejner
+## násilně zabijeme běžící kontejner
 docker kill aop-kontejner
+## smažeme ostatky kontejneru dle jejich názvu
 docker rm aop-kontejner
+## smažeme vytvořenou image podle názvu a tagu
 docker rmi aop-apache-php7:latest
 docker rmi aop-apache-php8:latest
 
